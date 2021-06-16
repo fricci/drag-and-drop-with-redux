@@ -17,8 +17,10 @@ export const slice = createSlice({
         },
         undo: (state) => {
             const prevState = history.pop();
-            state.x = prevState.x;
-            state.y = prevState.y;
+            if(prevState) {
+                state.x = prevState.x;
+                state.y = prevState.y;
+            }
         }
     },
 });
