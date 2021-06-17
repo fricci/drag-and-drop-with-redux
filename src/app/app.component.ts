@@ -8,14 +8,18 @@ import { newBoxPosition, store, undo } from './store';
 })
 export class AppComponent {
 
-  x = '0px';
-  y = '0px';  
+  x = '100px';
+  y = '100px';  
+
+  elevated = false;
+
+  private shiftX: number = 0;
+  private shiftY: number = 0;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {  }
 
   ngOnInit() {
     store.subscribe(() => {
-      console.log(store.getState());
       this.x = `${store.getState().position.x}px`;
       this.y = `${store.getState().position.y}px`;
       this.changeDetectorRef.detectChanges();
@@ -23,8 +27,7 @@ export class AppComponent {
   }
 
   onDrop(event: any) {
-    store.dispatch(newBoxPosition({ x: event.clientX, y: event.clientY }));
-    console.log(event);
+    store.dispatch(newBoxPosition({ x: event.clientX - this.shiftX, y: event.clientY - this.shiftY }));
     event.preventDefault();
   }
 
@@ -32,8 +35,19 @@ export class AppComponent {
     store.dispatch(undo());
   }
 
+  onDragEnd(event: any) {
+    event.target.classList.toggle("on-drag");
+    this.elevated = false;
+  }
+
   onDragOver(event: any) {
-    event.stopPropagation();
     event.preventDefault();
+  }
+
+  onDragStart(event: any) {
+    event.target.classList.toggle("on-drag");
+    this. shiftX = event.clientX - event.target.getBoundingClientRect().left;
+    this. shiftY = event.clientY - event.target.getBoundingClientRect().top;
+    this.elevated = true;
   }
 }

@@ -6,8 +6,8 @@ const history: any[] = [];
 export const slice = createSlice({
     name: 'position',
     initialState: {
-        x: 0,
-        y: 0
+        x: 100,
+        y: 100
     },
     reducers: {
         newBoxPosition: (state, action) => {

@@ -1,4 +1,7 @@
 <button (click)="undo()">Undo</button>
-<div class="canvas" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
-  <div class="box" draggable="true" [style.top]="y" [style.left]="x" >This is a box</div>
+<div class="canvas" >
+  <div class="drop-zone" (dragover)="onDragOver($event)" (drop)="onDrop($event)" [ngClass]="{showdropzone: elevated}" >
+    <div class="box" (dragend)="onDragEnd($event)" (dragstart)="onDragStart($event)" draggable="true"
+      [ngClass]="{elevated: elevated}" [style.top]="y" [style.left]="x">Box</div>
+  </div>
 </div>
